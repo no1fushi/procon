@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Test用プログラム ひたすら四方をsearch（調べる）
+
 require 'CHaserConnect.rb' # CHaserConnect.rbを読み込む Windows
 
 # サーバに接続
@@ -71,15 +73,6 @@ target.putLeft
  elsif values[8]==1
 target.putDown
  elsif values[6] == 1
-target.putRight
-#斜め
-elsif values[1] == 1
-target.putLeft
-elsif values[3] == 1
-target.putUp
-elsif values[7] == 1
-target.putDown
-elsif values[9] == 1
 target.putRight
 #アイテム行動
  elsif values[2]==3
