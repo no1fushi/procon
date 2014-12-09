@@ -1,5 +1,10 @@
-# -*- coding: utf-8 -*-
-# Test用プログラム ひたすら四方をsearch（調べる）
+=begin
+-*- coding: utf-8 -*-
+
+仕様
+・ブロックを避ける
+・アイテムを取る
+=end
 
 require 'CHaserConnect.rb' # CHaserConnect.rbを読み込む Windows
 
