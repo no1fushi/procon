@@ -1,5 +1,14 @@
-# -*- coding: utf-8 -*-
-# Test用プログラム ひたすら四方をsearch（調べる）
+=begin
+-*- coding: utf-8 -*-
+
+仕様
+乱数を使ってみた
+ktchr.rbと同じ
+・敵にブロックを置く  
+・ブロックを避ける
+・アイテムを取りに行く
+・ループを避ける
+=end
 
 require 'CHaserConnect.rb' # CHaserConnect.rbを読み込む Windows
 
