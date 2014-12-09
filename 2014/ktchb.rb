@@ -1,4 +1,14 @@
-# -*- coding: utf-8 -*-
+=begin
+-*- coding: utf-8 -*-
+
+仕様
+最低限の機能
+Block_Hart_Ctと同じ
+・敵にブロックを置く
+・ブロックを避ける
+・アイテムを取りに行く
+=end
+
 require 'CHaserConnect.rb' # CHaserConnect.rbを読み込む Windows
 
 # サーバに接続
