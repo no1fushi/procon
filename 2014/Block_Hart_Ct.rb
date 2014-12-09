@@ -1,5 +1,13 @@
-# -*- coding: utf-8 -*-
-# Test用プログラム ひたすら四方をsearch（調べる）
+=begin
+-*- coding: utf-8 -*-
+
+仕様
+最低限の機能
+ktchb.rbと同じ
+・ブロックを避ける
+・アイテムを取る
+・敵にブロックを置く
+=end
 
 require 'CHaserConnect.rb' # CHaserConnect.rbを読み込む Windows
 
