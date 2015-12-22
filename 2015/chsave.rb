@@ -26,7 +26,7 @@ go = rand(4)
 rand = nil
 char = Array.new(4, false)
 tarn = 0
-ifct = 0 
+ifct = 0
 ct = 0
 
 loop do
@@ -35,11 +35,11 @@ loop do
   if values[0] == 0
     break
   end
-  
+
 #loop variable
   ifct = tarn
   ifct += 1
-  
+
 #char save
   if values[1] == 1
     char[0] = true
@@ -65,7 +65,7 @@ loop do
   else
     char[3] = false
   end
-  
+
 #char flee
   if ct == ifct
     if char[0] == false
@@ -120,9 +120,9 @@ loop do
           go = 0
         end
       end
-    end     
+    end
   end
-    
+
 #char slanting
 if values[1] == 1
   rand = rand(2)
@@ -177,7 +177,7 @@ if values[1] == 1
       end
     end
 end
-  
+
 #item slanting
 if values[1] == 3
     rand = rand(2)
@@ -256,9 +256,9 @@ if go == 0           #Uo
      end
     end
   end
-  
+
   if go == 1             #Left
-    if values[4] == 2 
+    if values[4] == 2
       rand = rand(2)
      if rand(2) == 0
           go = 0
@@ -278,8 +278,8 @@ if go == 0           #Uo
         end
      end
     end
-  end    
-    
+  end
+
   if go == 2               #down
     if values[8] == 2
     rand = rand(2)
@@ -302,7 +302,7 @@ if go == 0           #Uo
      end
     end
   end
-  
+
   if go == 3               #right
     if values[6] == 2
     rand = rand(2)
@@ -340,7 +340,7 @@ if go == 0           #Uo
     values = target.putDown
     tarn += 1
   end
-  
+
 #item
   if values[2] == 3
     go = 0
@@ -350,10 +350,10 @@ if go == 0           #Uo
     go = 3
   elsif values[8] == 3
     go = 2
-    
-  
+
+
   end
-  
+
 #go
   case go
   when 0
@@ -369,11 +369,11 @@ if go == 0           #Uo
     target.walkRight
     tarn += 1
   end
-  
+
 if values[0] == 0
  break
 end
-  
+
 
   #----- ここまで -----
 end
