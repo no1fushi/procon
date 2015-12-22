@@ -9,5 +9,9 @@
 RubyでかいたChaserのクライアントプログラム。しょぼい。  
 
 ・2015  
-2015年U-16釧路プログラミングコンテスト(http://procon.kushi.ro/) 用に  
-RubyでかいたChaserのクライアントプログラムを製作中  
+2015年U-16釧路プログラミングコンテスト(http://procon.kushi.ro/)  
+2015年第二回プログラミングコンテスト(http://u16procon.org/) 用に  
+RubyでかいたChaserのクライアントプログラム。しょぼい。  
+
+・メモ  
+外部出力、a*、look判定  
