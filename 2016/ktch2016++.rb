@@ -18,9 +18,20 @@ target = CHaserConnect.new("ktch") # この名前を4文字までで変更する
 
 #変数宣言
 values = Array.new(10) # 書き換えない
+ulook = Array.new(10)
+llook = Array.new(10)
+rlook = Array.new(10)
+dlook = Array.new(10)
+usearch = Array.new(10)
+lsearch = Array.new(10)
+rsearch = Array.new(10)
+dsearch = Array.new(10)
+
 tarn = 0#target.の命令後+される
 go = rand(4)#0:U,1:L,2:D,3:R
 put = nil#0:U,1:L,2:D,3:R
+look = nil#0:U,1:L,2:D,3:R
+search = nil#0:U,1:L,2:D,3:R
 $itarn = 0#trand
 
 #method
@@ -114,6 +125,47 @@ def itemSle(go,values)#values斜めアイテム
           go = 3
         end
       end
+  end
+  return go
+end
+
+def trand(go,values)# 9ターンアイテムなかったらランダム
+  if values.count(3) == 0
+    $itarn += 1
+  else
+    $itarn = 0
+  end
+  
+  if $itarn == 10
+    $itarn = 1
+  end
+  
+  if $itarn == 9 && (go == 0 || go == 2)#上or下
+    rand = rand(2)
+    if rand == 0
+      go = 1
+      if values[4] == 2
+        go = 3
+      end
+    else
+      go = 3
+      if values[6] == 2
+        go = 1
+      end
+    end
+  elsif $itarn == 9 && (go == 1 || go == 3)#左or右
+    rand = rand(2)
+    if rand == 0
+      go = 0
+      if values[2] == 2
+        go = 2
+      end
+    else
+      go = 2
+      if values[8] == 2
+        go = 0
+      end
+    end
   end
   return go
 end
@@ -213,47 +265,6 @@ def block(go,values)#ブロック判定
   return go
 end
 
-def trand(go,values)# 9ターンアイテムなかったらランダム
-  if values.count(3) == 0
-    $itarn += 1
-  else
-    $itarn = 0
-  end
-  
-  if $itarn == 10
-    $itarn = 1
-  end
-  
-  if $itarn == 9 && (go == 0 || go == 2)#上or下
-    rand = rand(2)
-    if rand == 0
-      go = 1
-      if values[4] == 2
-        go = 3
-      end
-    else
-      go = 3
-      if values[6] == 2
-        go = 1
-      end
-    end
-  elsif $itarn == 9 && (go == 1 || go == 3)#左or右
-    rand = rand(2)
-    if rand == 0
-      go = 0
-      if values[2] == 2
-        go = 2
-      end
-    else
-      go = 2
-      if values[8] == 2
-        go = 0
-      end
-    end
-  end
-  return go
-end
-
 loop do # 無限ループ
   #----- ここから -----
   print(tarn+1,"ターン目\n")
@@ -261,7 +272,7 @@ loop do # 無限ループ
   if values[0] == 0             # 先頭が0になったら終了
     break
   end
-  
+
 #処理
   put = charput(values)#隣敵
   go = trand(go,values)#9ターンアイテムなかったらランダム
@@ -269,6 +280,21 @@ loop do # 無限ループ
   go = item(go,values) #隣アイテム
   go = block(go,values)#ブロックの判定
 
+#命令セット
+  case go#walk
+    when 0
+      values = target.walkUp
+      tarn += 1
+    when 1
+      values = target.walkLeft
+      tarn += 1
+    when 2
+      values = target.walkDown
+      tarn += 1
+    when 3
+      values = target.walkRight
+      tarn += 1
+  end
 #put
   case put
     when 0
@@ -284,21 +310,45 @@ loop do # 無限ループ
       values = target.putRight
       tarn += 1
   end
-#walk
-  case go
+#Look
+  case look
     when 0
-      values = target.walkUp
+      values = target.lookUp
+      ulook = values
       tarn += 1
     when 1
-      values = target.walkLeft
+      values = target.lookLeft
+      llook = values
       tarn += 1
     when 2
-      values = target.walkDown
+      values = target.lookDown
+      dlook = values
       tarn += 1
     when 3
-      values = target.walkRight
+      values = target.lookRight
+      rlook = values
       tarn += 1
   end
+#Look
+  case search
+    when 0
+      values = target.searchUp
+      usearch = values
+      tarn += 1
+    when 1
+      values = target.searchLeft
+      lsearch = values
+      tarn += 1
+    when 2
+      values = target.searchDown
+      dsearch = values
+      tarn += 1
+    when 3
+      values = target.searchRight
+      rsearch = values
+      tarn += 1
+  end
+  
 if values[0] == 0
  break
 end
