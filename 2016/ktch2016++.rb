@@ -4,6 +4,7 @@
 隣敵 charput
 隣アイテム取り item
 斜めアイテム itemSle
+斜め敵 charSle
 一定ターン(9)アイテムなかったらランダム trand
 デバッグ(変数出力) debug_var
 =end
@@ -33,12 +34,13 @@ put = nil#0:U,1:L,2:D,3:R
 look = nil#0:U,1:L,2:D,3:R
 search = nil#0:U,1:L,2:D,3:R
 $itarn = 0#trand
+$lib == 0
 
 #method
 def debug_var(name,var,tarn)#debug 変数出力
   day = Time.now
   tarn += 1
-  dir = Dir.open("TEMP/")
+  dir = Dir.open("../TEMP/")
     io = File.open("TEMP/var_output.log","a")
       io.write("#{$day} #{name} #{var}#{tarn}ターン目 \n")
     io.close
@@ -129,18 +131,99 @@ def itemSle(go,values)#values斜めアイテム
   return go
 end
 
-def trand(go,values)# 9ターンアイテムなかったらランダム
+def charSle(go,values)#敵斜め
+  if values[1] == 1
+    rand = rand(2)
+    if rand == 0
+      go = 2
+      if values[8] == 2
+        go = 3 
+        if values[6] == 2
+          go = 100
+        end
+      end
+    else
+      go = 3
+      if values[8] == 2
+        go = 2
+        if values[6] == 2
+          go == 100
+        end
+      end
+    end
+  elsif values[3] == 1
+    rand = rand(2)
+    if rand == 0
+      go = 2
+      if values[8] == 2
+        go = 1
+        if values[4] == 2
+          go = 100
+        end
+      end
+    else
+      go = 1
+      if values[4] == 2
+        go = 2
+        if values[8] == 2
+          go = 100
+        end
+      end
+    end
+    elsif values[7] == 1
+      rand = rand(2)
+      if rand == 0
+        go = 0
+        if values[2] == 2
+          go = 3
+          if values[6] == 2
+            go = 100
+          end
+        end
+      else
+        go = 3 
+        if values[6] == 2
+          go = 0
+          if values[2] == 2
+            go = 100
+          end
+        end  
+      end
+    elsif values[9] == 1
+      rand = rand(2)
+      if rand == 0
+        go = 0
+        if values[2] == 2
+          go = 1
+          if values[4] == 2
+            go = 100
+          end
+        end
+      else
+        go = 1
+        if values[4] == 2
+          go = 0
+          if values[2] == 2
+            go == 100
+          end
+        end
+      end
+    end
+    return go
+end
+
+def trand(go,values)# 19ターンアイテムなかったらランダム
   if values.count(3) == 0
     $itarn += 1
   else
     $itarn = 0
   end
   
-  if $itarn == 10
+  if $itarn == 20
     $itarn = 1
   end
   
-  if $itarn == 9 && (go == 0 || go == 2)#上or下
+  if $itarn == 19 && (go == 0 || go == 2)#上or下
     rand = rand(2)
     if rand == 0
       go = 1
@@ -153,7 +236,7 @@ def trand(go,values)# 9ターンアイテムなかったらランダム
         go = 1
       end
     end
-  elsif $itarn == 9 && (go == 1 || go == 3)#左or右
+  elsif $itarn == 19 && (go == 1 || go == 3)#左or右
     rand = rand(2)
     if rand == 0
       go = 0
@@ -170,11 +253,137 @@ def trand(go,values)# 9ターンアイテムなかったらランダム
   return go
 end
 
+def confinedMode(values)#自閉対策look判定
+  if values[1] == 2 && values[2] == 3 && values[3] == 2
+    look = 0
+  elsif values[1] == 2 && values[4] == 3 && values[7] == 2
+    look = 1
+  elsif values[7] == 2 && values[8] == 3 && values[9] == 2
+    look = 2
+  elsif values[3] == 2 && values[6] == 3 && values[9] == 2
+    look = 3
+  end
+  return look
+end
+
+def lookItem(ulook,llook,dlook,rlook,values,go)
+ if $lib == 0 ||$lib == 1
+   $lib += 1
+   if ulook[7] == 2 && ulook[5] == 2 && ulook[8] == 3 && ulook[9] == 2
+     rand = rand(2)
+     if rand == 0
+       go = 1
+       if values[4] == 2
+         go = 3
+         if values[6] == 2
+           go = 2
+           if values[8] == 2
+             go = 100
+           end
+         end
+       end
+     else
+       go = 3
+       if values[6] == 2
+         go = 1
+         if values[4] == 2
+           go = 2
+           if values[8] == 2
+             go= 100
+           end
+         end
+       end
+     end
+     elsif llook[3] == 2 && llook[6] == 3 && llook[9] == 2 && llook[5] == 2
+       rand = rand(2)
+       if rand == 0
+         go = 0
+         if values[2] == 2
+           go = 2
+           if values[8] == 2
+             go = 3
+             if values[6] == 2
+               go = 100
+             end
+           end
+         end
+       else
+         go = 2
+         if values[8] == 2
+           go = 0
+           if values[2] == 2
+             go = 3
+             if values[6] == 2
+               go = 100
+             end
+           end
+         end
+       end
+     elsif dlook[1] == 2 && dlook[2] == 3 && dlook[3] == 2 && dlook[5] == 2
+       rand = rand(2)
+       if rand == 0
+         go = 1
+         if values[4] == 2
+           go = 3
+           if values[6] == 2
+             go = 0
+             if values[2] == 2
+               go = 100
+             end
+           end
+         end
+       else
+         go = 3
+         if values[6] == 2
+           go = 1
+           if values[4] == 2
+             go = 0
+             if values[2] == 2
+               go = 100
+             end
+           end
+         end
+       end
+       elsif rlook[1] == 2 && rlook[4] == 3 && rlook[7] == 2 && rlook[5] == 2
+         rand = rand(2)
+         if rand == 0
+           go = 0
+           if values[2] == 2
+             go = 2
+             if values[8] == 2
+               go = 1
+               if values[4] == 2
+                 go = 100
+               end
+             end
+           end
+         else
+           go = 2
+           if values[8] == 2
+             go = 0
+             if values[2] == 2
+               go = 1
+               if values[4] == 2
+                 go = 100
+               end
+             end
+           end
+         end
+   end
+ elsif $lib == 2
+   ulook == nil
+   ulook == nil
+   ulook == nil
+   ulook == nil
+ end
+ return go
+end
+
 def block(go,values)#ブロック判定
   if go == 0           #Up
       if values[2] == 2
         rand = rand(2)
-       if  rand == 0
+       if rand == 0
            go = 1
         if values[4] == 2
           go = 3
@@ -199,9 +408,9 @@ def block(go,values)#ブロック判定
         rand = rand(2)
        if rand == 0
             go = 0
-          if values[2] ==2
+          if values[2] == 2
             go = 2
-            if values[8] ==2
+            if values[8] == 2
               go = 3
             end
           end
@@ -262,6 +471,17 @@ def block(go,values)#ブロック判定
         end
       end
     end
+    
+    #はまるので緊急で決め打ち
+    if values[2] == 2&& values[4] == 2 && values[6] == 2
+      go = 2
+    elsif values[4] == 2&& values[2] == 2 && values[8] == 2
+      go = 3
+    elsif values[8] == 2 && values[4] == 2 &&values[6] == 2
+      go = 0
+    elsif values[4] == 2 && values[2] == 2 && values[8] == 2
+      go = 1
+    end
   return go
 end
 
@@ -272,13 +492,37 @@ loop do # 無限ループ
   if values[0] == 0             # 先頭が0になったら終了
     break
   end
-
+  
+  #初期化
+  if go == 4
+    go = swap
+  end
+  
 #処理
-  put = charput(values)#隣敵
-  go = trand(go,values)#9ターンアイテムなかったらランダム
+  go = trand(go,values)#19ターンアイテムなかったらランダム
   go = itemSle(go,values)#斜めアイテム
   go = item(go,values) #隣アイテム
-  go = block(go,values)#ブロックの判定
+  put = charput(values)#隣敵
+  lg = charSle(go,values)#敵斜めlg
+  look = confinedMode(values)  #自閉対策
+  lg = lookItem(ulook,llook,dlook,rlook,values,go)  #自閉対策
+  
+  #ダブり回避
+  if put != nil
+    swap = go
+    go = 4
+  elsif lg >= 100#lg
+    swap = go
+    look = lg
+    go = 4
+  elsif lg ==0||lg ==1||lg ==2||lg ==3
+    go = lg
+  elsif look != nil
+    swap = go
+    go = 4
+  end
+  
+go = block(go,values)#ブロックの判定
 
 #命令セット
   case go#walk
@@ -298,11 +542,11 @@ loop do # 無限ループ
 #put
   case put
     when 0
-        values = target.putUp
-        tarn += 1
+      values = target.putUp
+      tarn += 1
     when 1
-        values = target.putLeft
-        tarn += 1
+      values = target.putLeft
+      tarn += 1
     when 2
       values = target.putDown
       tarn += 1
@@ -313,42 +557,33 @@ loop do # 無限ループ
 #Look
   case look
     when 0
-      values = target.lookUp
-      ulook = values
+      ulook = target.lookUp
       tarn += 1
     when 1
-      values = target.lookLeft
-      llook = values
+      llook = target.lookLeft
       tarn += 1
     when 2
-      values = target.lookDown
-      dlook = values
+      dlook = target.lookDown
       tarn += 1
     when 3
-      values = target.lookRight
-      rlook = values
+      rlook = target.lookRight
       tarn += 1
   end
-#Look
+#search
   case search
     when 0
-      values = target.searchUp
-      usearch = values
+      usearch = target.searchUp
       tarn += 1
     when 1
-      values = target.searchLeft
-      lsearch = values
+      lsearch = target.searchLeft
       tarn += 1
     when 2
-      values = target.searchDown
-      dsearch = values
+      dsearch = target.searchDown
       tarn += 1
     when 3
-      values = target.searchRight
-      rsearch = values
+      rsearch = target.searchRight
       tarn += 1
   end
-  
 if values[0] == 0
  break
 end
