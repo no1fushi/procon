@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Test用プログラム 周りを調べながら行動する
 require 'CHaserConnect.rb' # CHaserConnect.rb
 
 # default-set
