@@ -4,7 +4,7 @@ require 'CHaserConnect.rb' # CHaserConnect.rb
 # default-set
 target = CHaserConnect.new("ktch") #name
 values = Array.new(10)
-random = Random.new # rand Generator
+random = Random.new # rand-Generator
 
 # var-set
 tar = nil # 0=put,1=walk,2=look
@@ -21,6 +21,9 @@ loop do # loop-start
     break
   end
 #-----Non-rewritable-end-----
+
+#var-init
+  tar = nil
 
 #tarn-rand
   if (tarn != 0) && (tarn % 50 == 0)
@@ -360,57 +363,45 @@ loop do # loop-start
         when 0
           values = target.putUp
           tarn += 1
-          tar = nil
         when 1
           values = target.putLeft
           tarn += 1
-          tar = nil
         when 2
           values =  target.putDown
           tarn += 1
-          tar = nil
         when 3
           values =  target.putRight
           tarn += 1
-          tar = nil
       end
     when 1
       case go
         when 0
           values = target.walkUp
           tarn += 1
-          tar = nil
         when 1
           values = target.walkLeft
           tarn += 1
-          tar = nil
         when 2
           values =  target.walkDown
           tarn += 1
-          tar = nil
         when 3
           values =  target.walkRight
           tarn += 1
-          tar = nil
       end
     when 2
       case look
       when 0
         values = target.lookUp
         tarn += 1
-        tar = nil
       when 1
         values = target.lookLeft
         tarn += 1
-        tar = nil
       when 2
         values =  target.lookDown
         tarn += 1
-        tar = nil
       when 3
         values =  target.lookRight
         tarn += 1
-        tar = nil
       end
   end
 
