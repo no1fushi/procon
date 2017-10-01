@@ -33,7 +33,7 @@ loop do # loop-start
   look = go
   i = 0
   j = 1
-  sl = 0 # sle-flag
+  thr = 0 # 0=look,1=look-through,3=go-through
 
 #tarn-rand
   if (tarn != 0) && (tarn % 50 == 0)
@@ -47,20 +47,20 @@ loop do # loop-start
     if rand == 0
       go = 0 # U
       tar = 1
-      sl = 1
+      thr = 1
       if values[2] == 2
         go = 1 # L
         tar = 1
-        sl = 1
+        thr = 1
       end
     else
       go = 1 # L
       tar = 1
-      sl = 1
+      thr = 1
       if values[4] == 2
         go = 0 # U
         tar = 1
-        sl = 1
+        thr = 1
       end
     end
     elsif values[3] == 3
@@ -68,20 +68,20 @@ loop do # loop-start
       if rand == 0
         go = 0 # U
         tar = 1
-        sl = 1
+        thr = 1
         if values[2] == 2
           go = 3 # R
           tar = 1
-          sl = 1
+          thr = 1
         end
       else
         go = 3 # R
         tar = 1
-        sl = 1
+        thr = 1
         if values[6] == 2
           go = 0 # U
           tar = 1
-          sl = 1
+          thr = 1
         end
       end
     elsif values[7] == 3
@@ -89,11 +89,11 @@ loop do # loop-start
       if rand == 0
         go = 1 # L
         tar = 1
-        sl = 1
+        thr = 1
         if values[4] == 2
           go = 2 # D
           tar = 1
-          sl = 1
+          thr = 1
         end
       else
         go = 2 # D
@@ -101,7 +101,7 @@ loop do # loop-start
         if values[8] == 2
           go = 1 # L
           tar = 1
-          sl = 1
+          thr = 1
         end
       end
     elsif values[9] == 3
@@ -109,23 +109,77 @@ loop do # loop-start
       if rand == 0
         go = 2 # D
         tar = 1
-        sl = 1
+        thr = 1
         if values[8] == 2
           go = 3 # R
           tar = 1
-          sl = 1
+          thr = 1
         end
       else
         go = 3 # R
         tar = 1
-        sl = 1
+        thr = 1
         if values[6] == 2
           go = 2 # D
           tar = 1
-          sl = 1
+          thr = 1
         end
       end
     end
+  
+# item
+  if values[2] == 3
+    go = 0
+    tar = 1
+    thr = 1
+  elsif values[4] == 3
+    go = 1
+    tar = 1
+    thr = 1
+  elsif values[6] == 3
+    go = 3
+    tar = 1
+    thr = 1
+  elsif values[8] == 3
+    go = 2
+    tar = 1
+    thr = 1
+  end
+
+#look-char
+  if (go == 0) && (ulook[1] == 1 || ulook[2] == 1 || ulook[3] == 1)
+    go = 0
+    tar = 1
+    thr = 1
+  elsif (go == 0) && (ulook[4] == 1 || ulook[5] == 1 || ulook[6] == 1)
+    look = 0
+    tar = 2
+    thr = 3
+  elsif (go == 1) && (llook[1] == 1 || llook[2] == 1 || llook[3] == 1)
+    go = 1
+    tar = 1
+    thr = 1
+  elsif (go == 1) && (llook[4] == 1 || llook[5]== 1 || llook[6] == 1)
+    look = 1
+    tar = 2
+    thr = 3
+  elsif (go == 2) && (dlook[1] == 1 || dlook[2] == 1 || dlook[3] == 1)
+    go = 2
+    tar = 1
+    thr = 1
+  elsif (go == 2) && (dlook[4] == 1 || dlook[5] == 1 || dlook[6] == 1)
+    look = 2
+    tar = 2
+    thr = 3
+  elsif (go == 3) && (rlook[1] == 1 || rlook[2] == 1 || rlook[3] == 1)
+    go = 3
+    tar = 1
+    thr = 1
+  elsif (go == 3) && (rlook[4] == 1 || rlook[5] == 1 || rlook[6] == 1)
+    look = 3
+    tar = 2
+    thr = 3
+  end
   
 # char-sle
   if values[1] == 1
@@ -133,29 +187,29 @@ loop do # loop-start
     if rand == 0
       go = 3 # R
       tar = 1
-      sl = 1
+      thr = 1
       if values[6] == 2
         go = 2 # D
         tar = 1
-        sl = 1
+        thr = 1
         if values[8] == 2
           look = 0 # U
           tar = 2
-          sl = 1
+          thr = 3
         end
       end
     else
       go = 2 # D
       tar = 1
-      sl = 1
+      thr = 1
       if values[8] == 2
         go = 3 # R
         tar = 1
-        sl = 1
+        thr = 1
         if values[6] == 2
           look = 0 # U
           tar = 2
-          sl = 1
+          thr = 3
         end
       end
     end
@@ -164,29 +218,29 @@ loop do # loop-start
       if rand == 0
         go = 1 # L
         tar = 1
-        sl = 1
+        thr = 1
         if values[4] == 2
           go = 2 # D
           tar = 1
-          sl = 1
+          thr = 1
           if values[8] == 2
             look = 0 # U
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       else
         go = 2 # D
         tar = 1
-        sl = 1
+        thr = 1
         if values[8] == 2
           go = 1 # L
           tar = 1
-          sl = 1
+          thr = 1
           if values[4] == 2
             look = 0 # U
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       end
@@ -195,29 +249,29 @@ loop do # loop-start
       if rand == 0
         go = 3 # R
         tar = 1
-        sl = 1
+        thr = 1
         if values[6] == 2
           go = 0 # U
           tar = 1
-          sl = 1
+          thr = 1
           if values[2] == 2
             look = 2 # D
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       else
         go = 0 # U
         tar = 1
-        sl = 1
+        thr = 1
         if values[2] == 2
           go = 3 # R
           tar = 1
-          sl = 1
+          thr = 1
           if values[6] == 2
             look = 2 # D
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       end
@@ -226,36 +280,36 @@ loop do # loop-start
       if rand == 0
         go = 1 # L
         tar = 1
-        sl = 1
+        thr = 1
         if values[4] == 2
           go = 0 # U
           tar = 1
-          sl = 1
+          thr = 1
           if values[2] == 2
             look = 2 # D
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       else
         go = 0 # U
         tar = 1
-        sl = 1
+        thr = 1
         if values[2] == 2
           go = 1 # L
           tar = 1
-          sl = 1
+          thr = 1
           if values[4] == 2
             look = 2 # D
             tar = 2
-            sl = 1
+            thr = 3
           end
         end
       end
   end
   
 # block
-  if go == 0 # Up
+  if (go == 0) && (thr != 3) # Up
     if values[2] == 2
       rand = random.rand(0..1)
       if rand == 0
@@ -285,7 +339,7 @@ loop do # loop-start
     tar = 1
   end
 
-  if go == 1 # Left
+  if (go == 1) && (thr != 3) # Left
     if values[4] == 2
       rand = random.rand(0..1)
       if rand == 0
@@ -315,7 +369,7 @@ loop do # loop-start
     tar = 1
   end
 
-  if go == 2 # Down
+  if (go == 2) && (thr != 3) # Down
     if values[8] == 2
       rand = random.rand(0..1)
       if rand == 0
@@ -345,7 +399,7 @@ loop do # loop-start
     tar = 1
   end
 
-  if go == 3 # Right
+  if (go == 3) && (thr != 3) # Right
     if values[6] == 2
       rand = random.rand(0..1)
       if rand == 0
@@ -376,28 +430,12 @@ loop do # loop-start
   end
 
 #look
-  if (tarn % 2 == 0) && (sl != 1)
+  if (tarn % 2 == 0) && (thr == 0)
     tar = 2
   else
     tar = 1
   end
   
-  
-# item
-  if values[2] == 3
-    go = 0
-    tar = 1
-  elsif values[4] == 3
-    go = 1
-    tar = 1
-  elsif values[6] == 3
-    go = 3
-    tar = 1
-  elsif values[8] == 3
-    go = 2
-    tar = 1
-  end
-
 # cher
   if values[2] == 1
     put = 0
